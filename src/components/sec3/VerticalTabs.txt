@@ -1,0 +1,740 @@
+Styles and vertical tabs code.
+
+/********* Section 3 Styles Begins *********/
+.verticalTab {
+  padding-left: 152px;
+}
+
+.verticalTab .tabNav, .verticalTab .tabContainer {
+  float: left;
+}
+
+.verticalTab .tabNav {
+  width: 152px;
+  position: absolute;
+  left: 0;
+  top: 21px;
+}
+
+.verticalTab .tabNav li {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.verticalTab .tabNav li .icon {
+  display: block;
+  margin: 0 auto 8px auto;
+}
+
+.verticalTab .icon1 {
+  width: 34px;
+  height: 41px;
+  background-position: -25px 0;
+}
+
+.verticalTab .icon2 {
+  width: 34px;
+  height: 35px;
+  background-position: -59px 0;
+}
+
+.verticalTab .icon3 {
+  width: 35px;
+  height: 35px;
+  background-position: -93px 0;
+}
+
+.verticalTab .icon4 {
+  width: 26px;
+  height: 35px;
+  background-position: -128px 0;
+}
+
+.verticalTab .icon5 {
+  width: 30px;
+  height: 29px;
+  background-position: -154px 0;
+}
+
+.verticalTab .tabNav li a {
+  display: block;
+  text-align: center;
+  background-color: #930b3e;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  border-bottom: 1px solid #9e2452;
+  padding: 15px 12px;
+}
+
+.verticalTab .tabNav li:last-child a {
+  border-bottom-width: 0;
+  position: relative;
+}
+
+.verticalTab .tabNav .r-tabs-state-active a:before {
+  width: 6px;
+  height: 100%;
+  left: 100%;
+  top: 0;
+  content: "";
+  background-color: #75002b;
+  position: absolute;
+}
+
+.verticalTab .tabNav .r-tabs-state-active a:after {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  content: "";
+  width: 0;
+  height: 0;
+  margin-top: -3px;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid rgba(255, 255, 255, 0.9);
+}
+
+.verticalTab .tabNav .r-tabs-state-active a, .verticalTab .tabNav li a:hover {
+  background-color: #75002b;
+  color: #fff;
+}
+
+.verticalTab .tabContainer {
+  background: rgba(255, 255, 255, 0.9);
+  border-left: 6px solid #f58220;
+  width: 100%;
+  padding: 25px;
+  min-height: 600px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+}
+
+.verticalTab .tabContent {
+  padding: 0;
+  position: relative;
+}
+
+.verticalTab h2 {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.verticalTab .helpTtitle {
+  font-size: 22px;
+  color: #f4f5f6;
+  font-weight: 400;
+  margin-bottom: 0;
+  position: absolute;
+  left: -25px;
+  top: -65px;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+/********* Responsive Tab Begins *********/
+.resTab {
+  position: relative;
+}
+
+.resTab .tabNav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: #930b3e;
+}
+
+.resTab .tabNav li {
+  display: inline-block;
+  margin: 0 15px 0 0;
+  position: relative;
+}
+
+.resTab .tabNav li a {
+  display: inline-block;
+  padding: 15px 12px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  position: relative;
+}
+
+.resTab .tabNav .r-tabs-state-active a {
+  color: #5ea734;
+  text-shadow: none;
+  background-color: #fff;
+}
+
+.resTab .tabContent {
+  padding: 15px 0;
+  display: none;
+}
+
+.resTab .r-tabs-panel.r-tabs-state-active {
+  display: block;
+}
+
+.resTab .r-tabs-accordion-title {
+  display: none;
+}
+
+.resTab .tabNav .r-tabs-state-disabled {
+  opacity: 0.5;
+}
+
+.resTab .r-tabs-accordion-title .r-tabs-anchor {
+  display: block;
+  padding: 10px;
+  background-color: #5ea734;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.resTab .r-tabs-accordion-title.r-tabs-state-active .r-tabs-anchor {
+  background-color: #05205f;
+  color: #fff;
+  text-shadow: none;
+}
+
+.resTab .r-tabs-accordion-title.r-tabs-state-disabled {
+  opacity: 0.5;
+}
+
+.noJS .resTab .tabContainer {
+  height: 150px;
+  overflow: hidden
+}
+
+.noJS .resTab .tabContent {
+  display: block;
+  height: 150px
+}
+
+/********* Responsive Tab Ends *********/
+
+/********* Clear floats Begins *********/
+.cf:before, .cf:after, .container:before, .container:after, .row:before, .row:after, ul:before, ul:after, .boxs:before, .boxs:after, .radioList:after, .radioList:before {
+  content: " ";
+  display: table
+}
+
+.cf:after, .container:after, .row:after, ul:after, .boxs:after, .radioList:after {
+  clear: both
+}
+/********* Clear floats Ends *********/
+
+
+
+/* CommonForm Styles Begins */
+.commonForm .row {
+  margin: 0 -10px;
+}
+
+.commonForm .col-6, .commonForm .col-12 {
+  padding: 0 10px;
+}
+
+.commonForm .row .col-6, .commonForm .row .col-12 {
+  margin-bottom: 23px;
+}
+
+.commonForm .mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.commonForm .labelText {
+  font-size: 16px;
+  color: #7c7c7c;
+  font-weight: 400;
+  padding-bottom: 5px;
+  display: block;
+}
+
+.commonForm .buttonGroup {
+  text-align: right;
+}
+
+.commonForm .button {
+  margin-left: 10px;
+}
+
+.commonForm .formGroup {
+  position: relative;
+}
+
+.commonForm .error {
+  position: absolute;
+  bottom: -17px;
+  left: 5px;
+  background: #ff0000;
+  color: #fff;
+  border-radius: 3px;
+  padding: 2px 10px;
+  font-size: 13px;
+  z-index: 1;
+}
+
+.commonForm .error:after {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #f00;
+  position: absolute;
+  content: "";
+  left: 15px;
+  top: -6px;
+}
+
+.mandatoryNote {
+  position: absolute;
+  right: 0;
+  top: 4px;
+  z-index: 1;
+  font-size: 16px;
+  color: #000;
+  font-weight: 400;
+}
+
+/* CommonForm Styles Ends */
+
+/********* Buttons Begins *********/
+input[type="button"], input[type="reset"], button, .button {
+  display: inline-block;
+  text-decoration: none;
+  margin: 0;
+  padding: 9px 25px;
+  line-height: 23px;
+  border: 0;
+  color: #f4f5f6;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  background-color: #75002b;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input[type="button"]:hover, button:hover, .button:hover, input[type="button"]:focus, button[type="reset"]:focus, button:focus, .button:focus {
+  background-color: #f58220;
+  color: #fff;
+}
+
+button[type="reset"] {
+  background-color: #b4b4b4;
+}
+
+button[type="reset"]:hover {
+  background-color: #000;
+}
+
+.grayBtn {
+  border: 1px solid #d9d9d9;
+  background-color: #f4f5f6;
+  color: #75002b;
+}
+
+.grayBtn:hover {
+  border-color: #f58220;
+  background-color: #f58220;
+  color: #fff;
+}
+
+input[type="button"]:disabled, input[type="reset"]:disabled, button:disabled, .button:disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
+button:focus {
+  outline: 0 none;
+  outline: 0 none;
+}
+
+input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=url], select, textarea, .customUpload .browseFileName {
+  border: 0;
+  width: 100%;
+  color: #4e4e4e;
+  height: 42px;
+  padding: 0 10px;
+  font-size: 100%;
+  line-height: normal;
+  font-size: 15px;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f5f6;
+  border: 1px solid #d9d9d9;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 0 none;
+}
+
+.customeSelect {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* background: #f4f5f6 url(../images/select-arrow.png) no-repeat center right; */
+  cursor: pointer;
+  padding-right: 45px;
+}
+
+textarea {
+  resize: none;
+  height: 75px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/********* Buttons Begins *********/
+
+
+import React from 'react';
+import NavTabs from './NavTabs';
+import MyComponent from './MyComponent';
+import TrainIcon from '@mui/icons-material/Train';
+import StationOptions from './StationOption';
+
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  const VerticalTabs = () => {
+    return (
+      <div className="colRight h100 cf">
+        <div className="verticalTab resTab cf r-tabs">
+          <NavTabs />
+          <div className="tabContainer" style={{ minHeight: '615px' }}>
+            <div className="r-tabs-accordion-title r-tabs-state-active">
+              <a href="#traincomp" className="r-tabs-anchor">
+                <span className="icon icon1 sprite"></span>
+                <font className="TrainComplaint">Train</font>
+              </a>
+            </div>
+
+            <div
+              className="tabContent r-tabs-panel r-tabs-state-active active show"
+              id="traincomp"
+              role="tabpanel"
+              aria-labelledby="home-tab"
+              style={{ display: 'block' }}
+            >
+              <MyComponent />
+              <h2 className="ComplaintDet">Grievance Detail</h2>
+              <form
+                method="post"
+                name="complaint"
+                id="complaint"
+                encType="multipart/form-data"
+                className="commonForm"
+              >
+                <div id="detail_panel">
+                  <p className="mandatoryNote">
+                    <span style={{ color: '#f05f40' }}>*</span>
+                    <font className="Mandatory p">Mandatory Fields</font>
+                  </p>
+                  <div className="row" align="center">
+                    <div className="col-md-12">
+                      <font color="blue"></font>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-6 mb-4">
+                      <div className="relative nosessionmobile">
+                        <label htmlFor="contact_no" className="labelText mobileNmbr">
+                          Mobile No.
+                        </label>
+                        <input
+                          id="contact_no"
+                          type="text"
+                          name="contact_no"
+                          maxLength="10"
+                          className="form-control disabled"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-auto mt-auto">
+                      <button id="otpbtn" type="button" name="otpbtn" className="button d-none">
+                        <font className="otpText">Get OTP</font>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="row checkotppanel d-none">
+                    <div className="col-12 col-md-3">
+                      <div className="relative">
+                        <div className="inputField">
+                          <label className="labelText otp">OTP</label>
+                          <input
+                            type="text"
+                            name="regotp"
+                            id="regotp"
+                            tabIndex="2"
+                            onKeyUp="otpcheck()"
+                            maxLength="4"
+                            placeholder="OTP"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-5 col-md-3 mt-md-auto mb-md-auto mt-3">
+                      <button type="submit" name="regotpsubmit" id="regotpsubmit" tabIndex="4" className="button submitText">
+                        Submit
+                      </button>
+                    </div>
+                    <div className="col-7 col-md-4 mt-md-auto mb-md-auto mt-3">
+                      <button type="submit" name="resendbtn" id="resendbtn" tabIndex="4" className="button resendotp">
+                        Resend OTP
+                      </button>
+                    </div>
+                  </div>
+
+                  <font className="disablepanel">
+                    <div className="row">
+                      <div className="col-6">
+                        <div className="relative">
+                          <label className="labelText">
+                            <font className="JourneyDet">Journey Details</font>
+                            <span style={{ color: '#f05f40' }}>*</span>
+                          </label>
+                          <div className="inputField">
+                            <select className="customeSelect" name="pmode" id="pmode">
+                              <option value="PNR" className="PNRopt">PNR</option>
+                              <option value="UTS" className="UTSopt">UTS</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-6" id="UTS" style={{ display: 'block' }}>
+                        <div className="relative">
+                          <label htmlFor="uts_no" className="labelText">
+                            <font className="UTSNo">UTS No</font>
+                            <span style={{ color: '#f05f40' }}>*</span>
+                          </label>
+                          <div className="inputField">
+                            <input
+                              id="uts_no"
+                              type="text"
+                              name="uts_no"
+                              value=""
+                              maxLength="10"
+                              title="Please Enter UTS Number"
+                            />
+                          </div>
+                          <div id="uts_error" style={{ color: 'red' }}></div>
+                        </div>
+                      </div>
+
+                      <input
+                        id="uts_validated"
+                        style={{ display: 'none' }}
+                        value=""
+                      />
+                      <div className="col-6" id="Trainno1" style={{ display: 'block' }}>
+                        <div className="relative">
+                          <label htmlFor="train_no" className="labelText">
+                            <font className="TrainNo">Train Number</font>
+                            <span style={{ color: '#f05f40' }}>*</span>
+                          </label>
+                          <div className="inputField">
+                            <input
+                              list="trainno3"
+                              name="trainno"
+                              id="trainno"
+                              title="Please Choose Train"
+                            />
+                          </div>
+
+                          <datalist id="stationNameListtemp" className="stationName1">
+                            {/* Option for stations */}
+							<StationOptions/>
+                          </datalist>
+                          <datalist id="trainno3" title="Please Choose Train">
+                            {/* Options for train */}
+                          </datalist>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-6" id="PNR" style={{ display: 'none' }}>
+                      <div className="relative">
+                        <label htmlFor="pnr_uts" className="labelText">
+                          <font className="PNRNo">PNR No</font>
+                          <span style={{ color: '#f05f40' }}>*</span>
+                        </label>
+                        <div className="inputField">
+                          <input
+                            id="pnr_uts"
+                            type="text"
+                            name="pnr_uts"
+                            value=""
+                            maxLength="10"
+                            title="Please Enter PNR Number"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="pnr_error" style={{ color: 'red', display: 'none' }}></div>
+                  </font>
+
+                  <div id="pnr_desc" className="row" style={{ display: 'none' }}>
+                    {/* HIDDEN FIELDS */}
+                    <input
+                      id="day"
+                      type="hidden"
+                      name="day"
+                      className="form-control"
+                    />
+                    <input
+                      id="month"
+                      type="hidden"
+                      name="month"
+                      className="form-control"
+                    />
+                    <input
+                      id="year"
+                      type="hidden"
+                      name="year"
+                      className="form-control"
+                    />
+                    <input
+                      id="nextstn"
+                      type="hidden"
+                      name="nextstn"
+                      className="form-control"
+                    />
+                    <input
+                      id="time"
+                      type="hidden"
+                      name="time"
+                      className="form-control"
+                    />
+                    {/* HIDDEN FIELDS ENDS */}
+                    <div className="col-12">
+                      <br />
+                      <p>
+                        <font className="InTrainMsg">
+                          Please confirm your journey details before proceeding...
+                        </font>
+                      </p>
+                    </div>
+                    <div className="col-6">
+                      <div className="relative">
+                        <label htmlFor="train_no" className="labelText">
+                          <font className="TrainNumber">Train Number</font>
+                        </label>
+                        <div className="inputField">
+                          <input
+                            id="train_no"
+                            type="text"
+                            name="train_no"
+                            readOnly
+                            style={{}}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-6" style={{ display: 'none' }}>
+                      <div className="relative">
+                        <label htmlFor="from_stn" className="labelText">
+                          <font className="FromStation">From Station</font>
+                        </label>
+                        <div className="inputField">
+                          <input
+                            id="from_stn"
+                            type="text"
+                            name="from_stn"
+                            readOnly
+                            style={{}}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="relative">
+                        <label htmlFor="to_stn" className="labelText">
+                          <font className="ToStation">To Station</font>
+                        </label>
+                        <div className="inputField">
+                          <input
+                            id="to_stn"
+                            type="text"
+                            name="to_stn"
+                            readOnly
+                            style={{}}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="relative">
+                        <label htmlFor="train_no" className="labelText">
+                          <font className="TrainDate">Date of Journey</font>
+                        </label>
+                        <div className="inputField">
+                          <input
+                            id="journey_date"
+                            type="text"
+                            name="journey_date"
+                            readOnly
+                            style={{}}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="relative">
+                        <label htmlFor="comment" className="labelText">
+                          <font className="Comments">Comments</font>
+                        </label>
+                        <div className="inputField">
+                          <textarea
+                            id="comment"
+                            name="comment"
+                            rows="4"
+                            className="form-control"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-12">
+                      <button type="submit" className="button"> Submit </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tab-panel-${index}`}
+      aria-labelledby={`tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <div className="tabPanelContent">
+          <VerticalTabs />
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default TabPanel;

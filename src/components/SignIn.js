@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import logo from "../assets/images/signinlogo.png";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const SignIn = () => {
-  const nav = useNavigate();
+  // const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({

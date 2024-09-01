@@ -1,6 +1,4 @@
 import React from 'react'
-import Dashboard from './Dashboard';
-import CommentSection from './CommentSection';
 import UserReview from './UserReview';
 
 const Section5 = () => {
@@ -10,7 +8,10 @@ const Section5 = () => {
       <span id="heading" className='mb-8 text-center block text-4xl font-bold'>USER REVIEW</span>
       <div className='container'>
         <UserReview/>
-        <a href="/" className='btn btn-primary text-center justify-center max-w-[200px]'>Go To Community Page</a>
+      </div>
+      <div className='container flex items-center md:justify-center lg:justify-start'>
+        <a href="/" className="btn btn-primary text-center max-w-[300px] mx-auto">Add a Review</a>
+        <a href="/" className='btn btn-primary text-center max-w-[300px] mx-auto'>Community Page</a>
       </div>
     </div>
   )

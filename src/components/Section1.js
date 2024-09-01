@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-scroll';
-import hero from "../assets/images/hero.png";
 import { UserManual } from "./UserManual";
 import heroVideo from "../assets/videos/rsm1.mp4";
 

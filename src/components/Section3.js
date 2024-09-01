@@ -1,4 +1,5 @@
 import React from 'react'
+import VerticalTabs from './sec3/Verticaltabs'
 
 const Section3 = () => {
   return (
@@ -8,6 +9,7 @@ const Section3 = () => {
         RAIL MADAD
       </span>
       <span id="heading" className='text-center block text-4xl font-bold'>COMPLAINT</span>
+      <VerticalTabs/>
       </div>
     </div>
   )

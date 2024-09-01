@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { FaLink } from "react-icons/fa6";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
