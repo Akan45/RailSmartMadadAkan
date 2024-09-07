@@ -1,0 +1,271 @@
+//controllers/authController.js
+const jwt = require('jsonwebtoken');
+const twilio = require('twilio');
+const bcrypt = require('bcryptjs');
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = twilio(accountSid, authToken);
+
+
+exports.registerUser = async (req, res) => {
+    const { username, email, phNo, password } = req.body;
+
+  try {
+      const existingUser = await User.findOne({ email });
+  
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    const otpExpiration = Date.now() + 10 * 60 * 1000; // OTP valid for 10 minutes
+
+    const user = new User({ username, email, phNo, password, otp, otpExpiration });
+    await user.save();
+
+// Send OTP via Twilio
+await client.messages.create({
+      body: `Your OTP is ${otp}`,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: phNo
+    });
+  
+    res.status(201).json({ message: 'OTP sent to your mobile number' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+    };
+    
+    
+    exports.verifyOtp = async (req, res) => {
+          const { email, otp } = req.body;
+      
+          try {
+              const user = await User.findOne({ email });
+        
+              if (!user) {
+                  return res.status(400).json({ message: 'User not found' });
+                }
+          
+                if (user.otp !== otp || Date.now() > user.otpExpiration) {
+                    return res.status(400).json({ message: 'Invalid or expired OTP' });
+                  }
+            
+                  // Clear OTP and OTP expiration after successful verification
+                  user.otp = undefined;
+                  user.otpExpiration = undefined;
+                  await user.save();
+            
+                  const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+                      expiresIn: '1h',
+                    });
+              
+                    res.status(200).json({ message: 'OTP verified successfully', token });
+                  } catch (error) {
+                      console.error(error);
+                      res.status(500).json({ message: 'Server error' });
+                    }
+                  };
+                
+                
+                
+                
+                
+                
+                exports.loginUser = async (req, res) => {
+    const { email, password } = req.body;
+    console.log('Login attempt:', { email, password });
+  
+    try {
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+      }
+
+      const user = await User.findOne({ email });
+      if (!user) {
+          return res.status(400).json({ message: 'User not found' });
+        }
+  
+        // Assuming plaintext password
+        if (user.password !== password) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+          }
+    
+          const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '1h',
+      });
+
+      res.status(200).json({ message: 'Login successful', token });
+    } catch (error) {
+        console.error('Error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+
+const UserModel = require('../models/User');
+// const bcrypt = require('bcrypt');
+// module.exports.register = async function (req, res) {
+//   // try {
+  //  const { username, email, phNo, password, profile } = req.body;
+  //   // check the existing user
+  //   const existUsername = new Promise((resolve, reject) => {
+  //     UserModel.findOne({username}, function(err, user){
+  //       if(err) reject(new Error(err))
+  //       if(user) reject({error : "Please use Unique username"});
+  //       resolve();
+  //     })
+  //   });
+  //   // check for existing email
+  //   const existEmail = new Promise((resolve, reject) => {
+  //     UserModel.findOne({email}, function(err, email){
+  //       if(err) reject(new Error(err))
+  //       if(user) reject({error : "Please use Unique email"});
+  //       resolve();
+  //     })
+  //   });
+
+  //   Promise.all([existUsername, existEmail])
+  //   .then(() => {
+  //     if(password){
+  //         bcrypt.hash(password, 10)
+  //         .then( hashedpassword => {
+  //               const user = new UserModel({
+  //                 username,
+  //                 password: hashedpassword,
+  //                 profile: profile || '',
+  //                 email,
+  //                 phNo
+  //               });
+
+  //               user.save()
+  //                     .then(result => res.status(201).send({msg : "User Registered Successfully"}))
+  //                     .catch(error => res.status(500).send({error}))
+  //         }).catch(error => {
+  //           return res.status(500).send({
+  //             error : "Unable to hashed password"
+  //           });
+  //         });
+  //     }
+  //   }).catch(error => {
+  //     return res.status(500).send({
+  //       error : "Username or email already exists"
+  //     });
+  //   });
+  // } catch (error) {
+  //   return res.status(500).send(error);
+  // }
+
+  
+
+
+// module.exports.login = async function (req, res) {
+//   res.json('login route');
+// };
+// module.exports.getUser = async function (req, res) {
+//   res.json('getUser route');
+// };
+// module.exports.updateUser = async function (req, res) {
+//   res.json('UpdateUser route');
+// };
+// module.exports.generateOTP = async function (req, res) {
+//   res.json('generateOTP route');
+// };
+// module.exports.verifyOTP = async function (req, res) {
+//   res.json('veriftOTP route');
+// };
+// module.exports.createResetSession = async function (req, res) {
+//   res.json('createresetsession route');
+// };
+// module.exports.resetPassword = async function (req, res) {
+//   res.json('resetPassword route');
+// };
+
+// const bcrypt = require('bcrypt');
+// module.exports.register = async function (req, res) {
+//   // try {
+  //  const { username, email, phNo, password, profile } = req.body;
+  //   // check the existing user
+  //   const existUsername = new Promise((resolve, reject) => {
+  //     UserModel.findOne({username}, function(err, user){
+  //       if(err) reject(new Error(err))
+  //       if(user) reject({error : "Please use Unique username"});
+  //       resolve();
+  //     })
+  //   });
+  //   // check for existing email
+  //   const existEmail = new Promise((resolve, reject) => {
+  //     UserModel.findOne({email}, function(err, email){
+  //       if(err) reject(new Error(err))
+  //       if(user) reject({error : "Please use Unique email"});
+  //       resolve();
+  //     })
+  //   });
+
+  //   Promise.all([existUsername, existEmail])
+  //   .then(() => {
+  //     if(password){
+  //         bcrypt.hash(password, 10)
+  //         .then( hashedpassword => {
+  //               const user = new UserModel({
+  //                 username,
+  //                 password: hashedpassword,
+  //                 profile: profile || '',
+  //                 email,
+  //                 phNo
+  //               });
+
+  //               user.save()
+  //                     .then(result => res.status(201).send({msg : "User Registered Successfully"}))
+  //                     .catch(error => res.status(500).send({error}))
+  //         }).catch(error => {
+  //           return res.status(500).send({
+  //             error : "Unable to hashed password"
+  //           });
+  //         });
+  //     }
+  //   }).catch(error => {
+  //     return res.status(500).send({
+  //       error : "Username or email already exists"
+  //     });
+  //   });
+  // } catch (error) {
+  //   return res.status(500).send(error);
+  // }
+
+  
+
+
+// module.exports.login = async function (req, res) {
+//   res.json('login route');
+// };
+// module.exports.getUser = async function (req, res) {
+//   res.json('getUser route');
+// };
+// module.exports.updateUser = async function (req, res) {
+//   res.json('UpdateUser route');
+// };
+// module.exports.generateOTP = async function (req, res) {
+//   res.json('generateOTP route');
+// };
+// module.exports.verifyOTP = async function (req, res) {
+//   res.json('veriftOTP route');
+// };
+// module.exports.createResetSession = async function (req, res) {
+//   res.json('createresetsession route');
+// };
+// module.exports.resetPassword = async function (req, res) {
+//   res.json('resetPassword route');
+// };
+
+
+
+
+{
+  // "username" : "akan",
+  // "password" : "akan45",
+  // "email" : "akan34@gmail.com",
+  // "phNo" : "3859383",
+  // "profile" : ""
+}

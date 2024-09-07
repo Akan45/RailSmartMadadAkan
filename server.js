@@ -1,0 +1,133 @@
+// server.js
+const express = require('express');
+const connectDB = require('./config/db');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const authRoutes = require('./src/rail-madad-backend/routes/auth');
+const router = require('./src/rail-madad-backend/routes/route');
+const session = require("express-session");
+const passport = require("passport");
+const OAuth2Strategy = require("passport-google-oauth2").Strategy;
+const User = require('./src/rail-madad-backend/models/User');
+
+dotenv.config();
+const app = express();
+app.use(express.json());
+
+const clientId = "399095721277-gjvnk7v913vskelfa9kl170btoqec0fa.apps.googleusercontent.com"
+const clientsecret ="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"
+// Connect to the database
+connectDB();
+
+app.use('/api/auth', authRoutes);
+app.use('/api/auth', router);
+
+// Middleware
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods:"GET,POST,PUT,DELETE",
+  credentials:true
+}));
+
+app.options('*', cors());
+
+app.use(session({
+  secret:"24830hjfldug8249ncj93",
+  resave:false,
+  saveUninitialized:true
+}))
+
+app.use((req, res, next) => {
+  console.log('Request body:', req.body);
+  next();
+});
+
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
+  
+//setup passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+  new OAuth2Strategy({
+    clientID:clientId,
+    clientSecret:clientsecret,
+    callbackURL:"/auth/google/callback",
+    scope:["profile", "email"]
+  },
+async(accessToken,refreshToken,profile,done)=>{
+  console.log("profile",profile)
+  try {
+    let user = await User.findOne({googleId: profile.id});
+
+    if(!user) {
+
+      let existingUser = await User.findOne({ email: profile.emails[0].value });
+      
+      if (existingUser) {
+        existingUser.googleId = profile.id;
+        user = await existingUser.save();
+      } else {
+      user = new User({
+        googleId: profile.id,
+        username: profile.displayName,
+        email: profile.emails[0].value,
+        image: profile.photos[0].value
+      });
+
+      await user.save();
+    }
+  }
+
+    return done(null,user)
+  } catch (error) {
+    return done(error,null)
+  }
+})
+);
+
+passport.serializeUser((user,done)=>{
+  done(null,user);
+});
+
+passport.deserializeUser((user,done)=>{
+  done(null,user);
+});
+
+//initial google oauth login
+app.get("/auth/google",passport.authenticate("google",{scope:["profile","email"]}));
+
+app.get("/auth/google/callback",passport.authenticate("google",{
+  successRedirect:"http://localhost:3000",
+  failureRedirect:"http://localhost:3000/api/auth/register"
+}))
+
+app.get("/login/success", async(req,res)=>{
+  console.log("reqqq",req.user);
+
+  if(req.user){
+    res.status(200).json({message:"user Login", user:req.user})
+  }else{
+    res.status(400).json({message:"Not Authorized"})
+  }
+})
+
+app.get("/auth/logout", (req, res) => {
+  req.logout(err => {
+    if (err) { return next(err); }
+    res.redirect("http://localhost:3000");
+  });
+});
+
+
+
+// Routes
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
