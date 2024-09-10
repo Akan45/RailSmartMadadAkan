@@ -11,13 +11,20 @@ import { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { emailPasswordValidate } from "../helper/validate";
+import useFetch from '../hooks/fetch.hook';
+import {verifyPassword} from '../helper/helper';
+import {useAuthStore} from '../store/store';
+import { jwtDecode } from 'jwt-decode';
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-
-  const formik = useFormik({
+const { setAuth, auth } = useAuthStore(state => ({
+  setAuth: state.setAuth,
+  auth: state.auth
+}));
+const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
@@ -30,94 +37,41 @@ const SignIn = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      console.log(values);
-      setLoading(true);
-      try {
-        const response = await fetch("http://localhost:5000/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-          credentials: "include",
-        });
+     let loginPromise = verifyPassword({email : values.email, password : values.password});
+     toast.promise(loginPromise, {
+      loading: "checking..",
+      success: "login Successfully...!",
+      error: "password do not match"
+     });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+     loginPromise.then(res => {
+      // let { token, username } = res.data;
+      // localStorage.setItem('token', token);
+      // setAuth({ username, active: true });
+      let { token } = res.data;
+        const user = jwtDecode(token); // Decode the token to get user details
+        setAuth(user); // Set the auth state with user details
+        localStorage.setItem('token', token); // Store the token in localStorage
 
-        const data = await response.json();
-        if (data.message === "Login successful") {
-          toast.success(data.message);
-          localStorage.setItem("authToken", data.token);
-          navigate("/profile");
-        } else {
-          toast.error(data.message);
-        }
-      } catch (error) {
-        console.error("Error during fetch:", error);
-        toast.error("Failed to fetch. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    },
-  });
 
-  // const [formData, setFormData] = useState({
-  //   email: "",
-  //   password: "",
-  // });
-  // const handleChange = (e) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-  // const handleLogin = async () => {
-  //   if (!formData.email || !formData.password) {
-  //     toast.error("Please fill in all fields");
-  //     return;
-  //   }
+      // Introduce a delay before navigation
+      setTimeout(() => {
+        navigate('/profile');
+      }, 3000); // Delay navigation by 2 seconds
+    }).catch(error => {
+      toast.error("Login failed. Please check your credentials.");
+      console.error('Login error:', error);
+    });
+  }
+});
 
-  //   setLoading(true);
-  //   try {
-  //     console.log('Sending request to login endpoint with data:', formData);
-  //     const response = await fetch(
-  //       "http://localhost:5000/api/auth/login",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(formData),
-  //         credentials: 'include',
-  //       }
-  //     );
+const [{ isLoading: fetchLoading, apiData, serverError }] = useFetch(auth.username ? `user/${auth.username}` : null);
+  //console.log("username after successful login", auth.username);
+  if (loading) return <Loader />; // Display loader if form submission is in progress
+  if (fetchLoading) return <h1 className="text-2xl font-bold">Loading...</h1>;
+  if (serverError) return <h1 className="text-xl text-red-500">{serverError.message}</h1>; 
 
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     const data = await response.json();
-  //     setLoading(false);
-
-  //     if (data.message === "Login successful") {
-  //        toast.success(data.message);
-  //        localStorage.setItem("authToken", data.token);
-  //       navigate("/profile");
-  //     } else {
-  //       toast.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during fetch:', error);
-  //     console.log(error.message);
-  //     toast.error("Failed to fetch. Please try again.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  return (
+return (
     <>
       {loading && <Loader />}
       <Toaster position="top-center" reverseOrder={false}></Toaster>

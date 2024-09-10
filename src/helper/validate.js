@@ -1,3 +1,4 @@
+import { authenticate } from './helper';
 import { toast } from 'react-toastify';
 
 // validate signin form
@@ -74,4 +75,24 @@ function phoneNumberVerify(error = {}, values) {
 export async function profileValidation(values){
   const errors = emailVerify({}, values);
   return errors;
+}
+
+
+
+
+export async function usernameValidate(values) {
+  const errors = usernameVerify({}, values);
+
+  if (values.username) {
+    try {
+      const { status } = await authenticate(values.username);
+
+      if (status !== 200) {
+        errors.exist = toast.error('User does not exist...!');
+      }
+    } catch (error) {
+      errors.exist = toast.error('An error occurred while verifying the username.');
+    }
+  }
+return errors;
 }

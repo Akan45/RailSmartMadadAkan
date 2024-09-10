@@ -328,15 +328,17 @@ import logo from "../assets/images/registerlogo.png";
 import user from "../assets/images/user1.png";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast ,ToastContainer} from "react-toastify";
 import Loader from "./Loader";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerValidation } from "../helper/validate";
 import convertToBase64 from "../helper/convert";
+import {registerUser} from "../helper/helper";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -360,9 +362,22 @@ const Register = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      console.log('Form is submitting...'); 
+      // console.log('Form is submitting...'); 
       values = await Object.assign(values, { profile: file || '' });
-      console.log(values);
+      // console.log(values);
+      let registerPromise = registerUser(values);
+      
+      toast.promise(registerPromise, {
+        loading: 'Creating...',
+        success: 'Registered Successfully...! Please signin to register for complaint',
+        error: 'Could not Register.'
+      }).then(() => {
+        setTimeout(() => {
+          navigate('/signin');
+        }, 3000); // Delay navigation by 2 seconds
+      }).catch(error => {
+        console.error('Registration error:', error);
+      });
     }
   });
 
@@ -375,6 +390,11 @@ const Register = () => {
       return;
     }
 
+    if (selectedFile.size > 5 * 1024 * 1024) {
+      console.error('File size exceeds the 5MB limit');
+      return;
+    }
+  
     try {
       const base64 = await convertToBase64(selectedFile);
       console.log('Base64 string:', base64);
@@ -548,6 +568,7 @@ const Register = () => {
             <img src={logo} alt="logo" id="registerlogo" />
           </div>
         </div>
+        <ToastContainer />
       </GoogleOAuthProvider>
     </>
   );

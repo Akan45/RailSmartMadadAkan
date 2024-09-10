@@ -12,22 +12,26 @@ const User = require('./src/rail-madad-backend/models/User');
 
 dotenv.config();
 const app = express();
-app.use(express.json());
+
 
 const clientId = "399095721277-gjvnk7v913vskelfa9kl170btoqec0fa.apps.googleusercontent.com"
 const clientsecret ="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"
 // Connect to the database
 connectDB();
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods:"GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials:true,
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+}));
+
+app.use(express.json({ limit: '10mb' })); // Increase limit for JSON payloads
+app.use(express.urlencoded({ limit: '10mb', extended: true })); // Increase limit for URL-encoded payloads
 
 app.use('/api/auth', authRoutes);
 app.use('/api/auth', router);
 
 // Middleware
-app.use(cors({
-  origin: "http://localhost:3000",
-  methods:"GET,POST,PUT,DELETE",
-  credentials:true
-}));
 
 app.options('*', cors());
 
@@ -47,6 +51,12 @@ app.use((req, res, next) => {
     next();
   });
   
+  // Add this in your server.js to log errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
 //setup passport
 app.use(passport.initialize());
 app.use(passport.session());

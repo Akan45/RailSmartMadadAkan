@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect}from 'react'
 import { Routes, Route } from "react-router-dom";
 // import { Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
@@ -13,9 +13,18 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Community from "./pages/Community"
 import { useState } from "react";
+import { useAuthStore } from './store/store';
 
 function App() {
   const [name] = useState("");
+  const { setAuth } = useAuthStore();
+
+  useEffect(() => {
+    const storedAuth = localStorage.getItem('auth');
+    if (storedAuth) {
+      setAuth(JSON.parse(storedAuth));
+    }
+  }, [setAuth]);
   return (
     <Routes>
       <Route path="/" element={<Layout name={name} />}>
